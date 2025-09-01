@@ -1,0 +1,1250 @@
+ <!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise Bakery - सबसे मिठे केक</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .cake-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cake-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        
+        .cake-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cake-card:hover::before {
+            left: 100%;
+        }
+        
+        .floating-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .glow-effect:hover {
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.6);
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 105, 180, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(255, 105, 180, 0.8); }
+        }
+        
+        .slider {
+            animation: slide 15s infinite;
+        }
+        
+        @keyframes slide {
+            0%, 20% { transform: translateX(0); }
+            25%, 45% { transform: translateX(-100%); }
+            50%, 70% { transform: translateX(-200%); }
+            75%, 95% { transform: translateX(-300%); }
+            100% { transform: translateX(0); }
+        }
+        
+        .auto-scroll {
+            animation: scroll 20s linear infinite;
+        }
+        
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .cake-bg {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+        }
+        
+        .active-dot {
+            background-color: white !important;
+            opacity: 1 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-2xl fixed w-full top-0 z-50 backdrop-blur-md bg-opacity-95">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-3 group cursor-pointer">
+                    <div class="text-4xl group-hover:animate-bounce transition-all duration-300">🍰</div>
+                    <div>
+                        <h1 class="text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300">Sweet Dreams</h1>
+                        <p class="text-xs text-gray-500 group-hover:text-pink-500 transition-colors">Bakery & Cakes</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-2">
+                    <a href="#" onclick="showPage('home')" class="nav-link relative px-4 py-2 text-gray-700 hover:text-pink-600 font-medium rounded-lg hover:bg-pink-50 transition-all duration-300 group">
+                        <span class="relative z-10">🏠 Home</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                    </a>
+                    <a href="#" onclick="showPage('gallery')" class="nav-link relative px-4 py-2 text-gray-700 hover:text-pink-600 font-medium rounded-lg hover:bg-pink-50 transition-all duration-300 group">
+                        <span class="relative z-10">🖼️ Gallery</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                    </a>
+                    <a href="#" onclick="showPage('about')" class="nav-link relative px-4 py-2 text-gray-700 hover:text-pink-600 font-medium rounded-lg hover:bg-pink-50 transition-all duration-300 group">
+                        <span class="relative z-10">ℹ️ About</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                    </a>
+                    <a href="#" onclick="showPage('contact')" class="nav-link relative px-4 py-2 text-gray-700 hover:text-pink-600 font-medium rounded-lg hover:bg-pink-50 transition-all duration-300 group">
+                        <span class="relative z-10">📞 Contact</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                    </a>
+                </div>
+                <div class="flex space-x-3">
+                    <button onclick="showPage('login')" class="bg-gradient-to-r from-pink-500 to-pink-600 text-white px-6 py-2 rounded-full hover:from-pink-600 hover:to-pink-700 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl font-medium">
+                        <span class="flex items-center space-x-1">
+                            <span>🔐</span>
+                            <span>Login</span>
+                        </span>
+                    </button>
+                    <button onclick="showPage('signup')" class="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-2 rounded-full hover:from-purple-600 hover:to-purple-700 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl font-medium">
+                        <span class="flex items-center space-x-1">
+                            <span>✨</span>
+                            <span>Sign Up</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page">
+        <!-- Hero Slider -->
+        <div class="relative h-screen overflow-hidden mt-16" id="heroSlider">
+            <div class="flex transition-transform duration-500 ease-in-out" id="sliderContainer" style="width: 400%;">
+                <div class="w-1/4 h-screen relative">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1200&h=800&fit=crop" alt="Birthday Cake" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <div class="text-center text-white">
+                            <h2 class="text-6xl font-bold mb-4 animate-pulse">🎂 Birthday Special</h2>
+                            <p class="text-xl mb-8">सबसे खुशी के पल के लिए खास केक</p>
+                            <button onclick="orderCake('Birthday Special Cake', '₹899')" class="bg-white text-pink-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg">Order Now</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-1/4 h-screen relative">
+                    <img src="https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=1200&h=800&fit=crop" alt="Wedding Cake" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <div class="text-center text-white">
+                            <h2 class="text-6xl font-bold mb-4 animate-pulse">💒 Wedding Cakes</h2>
+                            <p class="text-xl mb-8">शादी के लिए खूबसूरत केक</p>
+                            <button onclick="showPage('gallery')" class="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg">View Collection</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-1/4 h-screen relative">
+                    <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=1200&h=800&fit=crop" alt="Fresh Cupcakes" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <div class="text-center text-white">
+                            <h2 class="text-6xl font-bold mb-4 animate-pulse">🧁 Fresh Daily</h2>
+                            <p class="text-xl mb-8">रोज ताजे बने केक और कपकेक</p>
+                            <button onclick="orderCake('Fresh Daily Cupcakes', '₹299')" class="bg-white text-orange-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg">Fresh Today</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-1/4 h-screen relative">
+                    <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=1200&h=800&fit=crop" alt="Party Cakes" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <div class="text-center text-white">
+                            <h2 class="text-6xl font-bold mb-4 animate-pulse">🎉 Party Orders</h2>
+                            <p class="text-xl mb-8">पार्टी के लिए बल्क ऑर्डर</p>
+                            <button onclick="window.open('tel:+917489186674', '_self')" class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg">Bulk Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slider Navigation -->
+            <button onclick="prevSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 text-gray-800 p-3 rounded-full shadow-lg hover:scale-110 transition-all duration-300">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <button onclick="nextSlide()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 text-gray-800 p-3 rounded-full shadow-lg hover:scale-110 transition-all duration-300">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            
+            <!-- Slider Dots -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
+                <button onclick="goToSlide(0)" class="slider-dot w-4 h-4 rounded-full bg-white bg-opacity-60 hover:bg-opacity-100 transition-all duration-300 active-dot"></button>
+                <button onclick="goToSlide(1)" class="slider-dot w-4 h-4 rounded-full bg-white bg-opacity-60 hover:bg-opacity-100 transition-all duration-300"></button>
+                <button onclick="goToSlide(2)" class="slider-dot w-4 h-4 rounded-full bg-white bg-opacity-60 hover:bg-opacity-100 transition-all duration-300"></button>
+                <button onclick="goToSlide(3)" class="slider-dot w-4 h-4 rounded-full bg-white bg-opacity-60 hover:bg-opacity-100 transition-all duration-300"></button>
+            </div>
+        </div>
+
+        <!-- Popular Cakes Section -->
+        <div class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">🌟 Popular Cakes</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="cake-card bg-white rounded-xl shadow-lg overflow-hidden group">
+                        <div class="h-48 overflow-hidden">
+                            <img src="Butterscotch Cake.jpg" alt="Strawberry Cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2">Strawberry Delight</h3>
+                            <p class="text-gray-600 mb-4">Fresh strawberry cake with cream</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-pink-600">₹599</span>
+                                <button onclick="orderCake('Strawberry Delight', '₹599')" class="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 hover:scale-105 transition-all duration-300 shadow-md">Order</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cake-card bg-white rounded-xl shadow-lg overflow-hidden group">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop" alt="Chocolate Cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2">Chocolate Fantasy</h3>
+                            <p class="text-gray-600 mb-4">Rich chocolate cake with ganache</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-orange-600">₹699</span>
+                                <button onclick="orderCake('Chocolate Fantasy', '₹699')" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 hover:scale-105 transition-all duration-300 shadow-md">Order</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cake-card bg-white rounded-xl shadow-lg overflow-hidden group">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400&h=300&fit=crop" alt="Birthday Cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2">Birthday Special</h3>
+                            <p class="text-gray-600 mb-4">Customized birthday cake</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-purple-600">₹799</span>
+                                <button onclick="orderCake('Birthday Special', '₹799')" class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 hover:scale-105 transition-all duration-300 shadow-md">Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Section -->
+        <div class="py-16 bg-gradient-to-r from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+            <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+            <div class="max-w-7xl mx-auto px-4 relative z-10">
+                <div class="text-center mb-12">
+                    <h2 class="text-5xl font-bold text-white mb-4 animate-pulse">🎬 हमारी कहानी</h2>
+                    <p class="text-xl text-gray-200">देखें कैसे बनते हैं हमारे खास केक</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <!-- Video Player -->
+                    <div class="relative group">
+                        <div class="bg-black rounded-3xl overflow-hidden shadow-2xl transform group-hover:scale-105 transition-all duration-500">
+                            <div class="aspect-video bg-gradient-to-br from-pink-500 via-purple-600 to-blue-600 flex items-center justify-center relative">
+                                <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+                                <div class="text-center text-white relative z-10">
+                                    <div class="text-8xl mb-4 animate-bounce">🎥</div>
+                                    <h3 class="text-2xl font-bold mb-2">Cake Making Process</h3>
+                                    <p class="text-lg mb-6">केक बनाने की पूरी प्रक्रिया</p>
+                                    <button onclick="playVideo()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-6 rounded-full hover:scale-110 transition-all duration-300 backdrop-blur-sm animate-pulse">
+                                        <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <!-- Floating Elements -->
+                                <div class="absolute top-4 left-4 text-4xl animate-bounce" style="animation-delay: 0.5s">🍰</div>
+                                <div class="absolute top-8 right-8 text-3xl animate-bounce" style="animation-delay: 1s">🧁</div>
+                                <div class="absolute bottom-8 left-8 text-3xl animate-bounce" style="animation-delay: 1.5s">🎂</div>
+                                <div class="absolute bottom-4 right-4 text-4xl animate-bounce" style="animation-delay: 2s">🍪</div>
+                            </div>
+                        </div>
+                        <!-- Video Stats -->
+                        <div class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-white rounded-full px-6 py-3 shadow-lg">
+                            <div class="flex items-center space-x-4 text-sm">
+                                <span class="flex items-center text-red-500">
+                                    <span class="w-2 h-2 bg-red-500 rounded-full mr-2 animate-pulse"></span>
+                                    LIVE
+                                </span>
+                                <span class="text-gray-600">👥 1.2K watching</span>
+                                <span class="text-gray-600">❤️ 856 likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Video Info -->
+                    <div class="text-white space-y-6">
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-4 p-4 bg-white bg-opacity-10 rounded-xl backdrop-blur-sm hover:bg-opacity-20 transition-all duration-300 group">
+                                <div class="text-3xl group-hover:scale-110 transition-transform duration-300">👨‍🍳</div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Expert Chefs</h4>
+                                    <p class="text-gray-200">15+ साल का अनुभव रखने वाले शेफ</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4 p-4 bg-white bg-opacity-10 rounded-xl backdrop-blur-sm hover:bg-opacity-20 transition-all duration-300 group">
+                                <div class="text-3xl group-hover:scale-110 transition-transform duration-300">🥛</div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Fresh Ingredients</h4>
+                                    <p class="text-gray-200">रोज ताजे ingredients का इस्तेमाल</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4 p-4 bg-white bg-opacity-10 rounded-xl backdrop-blur-sm hover:bg-opacity-20 transition-all duration-300 group">
+                                <div class="text-3xl group-hover:scale-110 transition-transform duration-300">🎨</div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Custom Design</h4>
+                                    <p class="text-gray-200">आपकी पसंद के अनुसार डिजाइन</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4 p-4 bg-white bg-opacity-10 rounded-xl backdrop-blur-sm hover:bg-opacity-20 transition-all duration-300 group">
+                                <div class="text-3xl group-hover:scale-110 transition-transform duration-300">🚚</div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Fast Delivery</h4>
+                                    <p class="text-gray-200">शहर भर में तेज डिलीवरी सेवा</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex space-x-4">
+                            <button onclick="window.open('tel:+919876543210', '_self')" class="bg-gradient-to-r from-pink-500 to-red-500 text-white px-8 py-3 rounded-full font-semibold hover:from-pink-600 hover:to-red-600 hover:scale-105 transition-all duration-300 shadow-lg">
+                                📞 Call Now
+                            </button>
+                            <button onclick="showPage('gallery')" class="bg-white bg-opacity-20 text-white px-8 py-3 rounded-full font-semibold hover:bg-opacity-30 hover:scale-105 transition-all duration-300 backdrop-blur-sm">
+                                🍰 View Cakes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="py-16 bg-white relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-pink-50 to-purple-50"></div>
+            <div class="max-w-7xl mx-auto px-4 relative z-10">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">🌟 Why Choose Us?</h2>
+                    <p class="text-xl text-gray-600">हमें क्यों चुनें?</p>
+                </div>
+                
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div class="text-center group">
+                        <div class="bg-gradient-to-r from-pink-500 to-red-500 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-lg">
+                            <span class="text-3xl text-white">🏆</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Best Quality</h3>
+                        <p class="text-gray-600">सबसे अच्छी क्वालिटी</p>
+                    </div>
+                    
+                    <div class="text-center group">
+                        <div class="bg-gradient-to-r from-purple-500 to-blue-500 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-lg">
+                            <span class="text-3xl text-white">⚡</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Fast Service</h3>
+                        <p class="text-gray-600">तेज सर्विस</p>
+                    </div>
+                    
+                    <div class="text-center group">
+                        <div class="bg-gradient-to-r from-green-500 to-teal-500 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-lg">
+                            <span class="text-3xl text-white">💰</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Best Price</h3>
+                        <p class="text-gray-600">सबसे अच्छी कीमत</p>
+                    </div>
+                    
+                    <div class="text-center group">
+                        <div class="bg-gradient-to-r from-orange-500 to-yellow-500 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-lg">
+                            <span class="text-3xl text-white">❤️</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Made with Love</h3>
+                        <p class="text-gray-600">प्यार से बनाया गया</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auto Scrolling Testimonials -->
+        <div class="py-16 bg-gray-100 overflow-hidden">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">💕 Customer Reviews</h2>
+            <div class="flex auto-scroll" style="width: 200%;">
+                <div class="flex space-x-8" style="width: 100%;">
+                    <div class="bg-white p-6 rounded-xl shadow-lg min-w-80">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl mr-3">👨</span>
+                            <div>
+                                <h4 class="font-semibold">राहुल शर्मा</h4>
+                                <div class="text-yellow-500">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"बहुत ही स्वादिष्ट केक! मेरी बेटी का बर्थडे परफेक्ट हो गया।"</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg min-w-80">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl mr-3">👩</span>
+                            <div>
+                                <h4 class="font-semibold">प्रिया गुप्ता</h4>
+                                <div class="text-yellow-500">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"शादी का केक बहुत खूबसूरत था। सभी मेहमान तारीफ कर रहे थे।"</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg min-w-80">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl mr-3">👨</span>
+                            <div>
+                                <h4 class="font-semibold">अमित कुमार</h4>
+                                <div class="text-yellow-500">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"ऑनलाइन ऑर्डर करना बहुत आसान था। टाइम पर डिलीवरी मिली।"</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg min-w-80">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl mr-3">👩</span>
+                            <div>
+                                <h4 class="font-semibold">सुनीता देवी</h4>
+                                <div class="text-yellow-500">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"चॉकलेट केक का स्वाद लाजवाब था। बच्चों को बहुत पसंद आया।"</p>
+                    </div>
+                </div>
+                <div class="flex space-x-8" style="width: 100%;">
+                    <div class="bg-white p-6 rounded-xl shadow-lg min-w-80">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl mr-3">👨</span>
+                            <div>
+                                <h4 class="font-semibold">राहुल शर्मा</h4>
+                                <div class="text-yellow-500">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"बहुत ही स्वादिष्ट केक! मेरी बेटी का बर्थडे परफेक्ट हो गया।"</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg min-w-80">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl mr-3">👩</span>
+                            <div>
+                                <h4 class="font-semibold">प्रिया गुप्ता</h4>
+                                <div class="text-yellow-500">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"शादी का केक बहुत खूबसूरत था। सभी मेहमान तारीफ कर रहे थे।"</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg min-w-80">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl mr-3">👨</span>
+                            <div>
+                                <h4 class="font-semibold">अमित कुमार</h4>
+                                <div class="text-yellow-500">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"ऑनलाइन ऑर्डर करना बहुत आसान था। टाइम पर डिलीवरी मिली।"</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg min-w-80">
+                        <div class="flex items-center mb-4">
+                            <span class="text-2xl mr-3">👩</span>
+                            <div>
+                                <h4 class="font-semibold">सुनीता देवी</h4>
+                                <div class="text-yellow-500">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"चॉकलेट केक का स्वाद लाजवाब था। बच्चों को बहुत पसंद आया।"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Page -->
+    <div id="gallery" class="page hidden">
+        <div class="pt-24 pb-16">
+            <div class="max-w-7xl mx-auto px-4">
+                <h1 class="text-5xl font-bold text-center mb-4 text-gray-800">🍰 Cake Gallery</h1>
+                <p class="text-center text-gray-600 mb-12">हमारे खूबसूरत केक का कलेक्शन देखें</p>
+                
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    <button onclick="filterCakes('all')" class="filter-btn bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-600 transition">All Cakes</button>
+                    <button onclick="filterCakes('1pound')" class="filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition">1 Pound</button>
+                    <button onclick="filterCakes('2pound')" class="filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition">2 Pound</button>
+                    <button onclick="filterCakes('single')" class="filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition">Single Layer</button>
+                    <button onclick="filterCakes('double')" class="filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition">Double Layer</button>
+                </div>
+
+                <!-- Cake Gallery Grid -->
+                <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6" id="cakeGrid">
+                    <!-- 1 Pound Cakes -->
+                    <div class="cake-item cake-card bg-white rounded-xl shadow-lg overflow-hidden group" data-category="1pound single">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=300&h=200&fit=crop" alt="Strawberry Cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-2">Strawberry Cake</h3>
+                            <p class="text-sm text-gray-600 mb-2">1 Pound | Single Layer</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-pink-600">₹499</span>
+                                <button class="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-600 hover:scale-105 transition-all duration-300 text-sm">Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cake-item cake-card bg-white rounded-xl shadow-lg overflow-hidden group" data-category="1pound single">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300&h=200&fit=crop" alt="Chocolate Cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-2">Chocolate Cake</h3>
+                            <p class="text-sm text-gray-600 mb-2">1 Pound | Single Layer</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-orange-600">₹549</span>
+                                <button class="bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-600 hover:scale-105 transition-all duration-300 text-sm">Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cake-item cake-card bg-white rounded-xl shadow-lg overflow-hidden group" data-category="1pound single">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=300&h=200&fit=crop" alt="Vanilla Cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-2">Vanilla Fresh</h3>
+                            <p class="text-sm text-gray-600 mb-2">1 Pound | Single Layer</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-green-600">₹599</span>
+                                <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 hover:scale-105 transition-all duration-300 text-sm">Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cake-item cake-card bg-white rounded-xl shadow-lg overflow-hidden group" data-category="1pound single">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1557925923-cd4648e211a0?w=300&h=200&fit=crop" alt="Red Velvet Cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-2">Red Velvet</h3>
+                            <p class="text-sm text-gray-600 mb-2">1 Pound | Single Layer</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-purple-600">₹529</span>
+                                <button class="bg-purple-500 text-white px-3 py-1 rounded hover:bg-purple-600 hover:scale-105 transition-all duration-300 text-sm">Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2 Pound Cakes -->
+                    <div class="cake-item cake-card bg-white rounded-xl shadow-lg overflow-hidden group" data-category="2pound double">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=300&h=200&fit=crop" alt="Birthday Cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-2">Birthday Special</h3>
+                            <p class="text-sm text-gray-600 mb-2">2 Pound | Double Layer</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-pink-600">₹899</span>
+                                <button class="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-600 hover:scale-105 transition-all duration-300 text-sm">Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cake-item cake-card bg-white rounded-xl shadow-lg overflow-hidden group" data-category="2pound double">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=300&h=200&fit=crop" alt="Wedding Cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-2">Wedding Supreme</h3>
+                            <p class="text-sm text-gray-600 mb-2">2 Pound | Double Layer</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-orange-600">₹999</span>
+                                <button class="bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-600 hover:scale-105 transition-all duration-300 text-sm">Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cake-item cake-card bg-white rounded-xl shadow-lg overflow-hidden group" data-category="2pound double">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=300&h=200&fit=crop" alt="Cupcake Tower" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-2">Cupcake Tower</h3>
+                            <p class="text-sm text-gray-600 mb-2">2 Pound | Double Layer</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-blue-600">₹1099</span>
+                                <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 hover:scale-105 transition-all duration-300 text-sm">Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cake-item cake-card bg-white rounded-xl shadow-lg overflow-hidden group" data-category="2pound double">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=300&h=200&fit=crop" alt="Layered Cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-2">Multi Layer</h3>
+                            <p class="text-sm text-gray-600 mb-2">2 Pound | Double Layer</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-red-600">₹1199</span>
+                                <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 hover:scale-105 transition-all duration-300 text-sm">Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- More Single Layer Options -->
+                    <div class="cake-item cake-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="1pound single">
+                        <div class="h-48 bg-gradient-to-r from-indigo-300 to-indigo-500 flex items-center justify-center">
+                            <span class="text-6xl">🧁</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-2">Vanilla Dream</h3>
+                            <p class="text-sm text-gray-600 mb-2">1 Pound | Single Layer</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-indigo-600">₹479</span>
+                                <button class="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600 transition text-sm">Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cake-item cake-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="2pound single">
+                        <div class="h-48 bg-gradient-to-r from-teal-300 to-teal-500 flex items-center justify-center">
+                            <span class="text-6xl">🥥</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-2">Coconut Paradise</h3>
+                            <p class="text-sm text-gray-600 mb-2">2 Pound | Single Layer</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-teal-600">₹749</span>
+                                <button class="bg-teal-500 text-white px-3 py-1 rounded hover:bg-teal-600 transition text-sm">Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cake-item cake-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="1pound double">
+                        <div class="h-48 bg-gradient-to-r from-amber-300 to-amber-500 flex items-center justify-center">
+                            <span class="text-6xl">🍯</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-2">Honey Layers</h3>
+                            <p class="text-sm text-gray-600 mb-2">1 Pound | Double Layer</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-amber-600">₹699</span>
+                                <button class="bg-amber-500 text-white px-3 py-1 rounded hover:bg-amber-600 transition text-sm">Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cake-item cake-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="2pound double">
+                        <div class="h-48 bg-gradient-to-r from-rose-300 to-rose-500 flex items-center justify-center">
+                            <span class="text-6xl">💖</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-2">Love Special</h3>
+                            <p class="text-sm text-gray-600 mb-2">2 Pound | Double Layer</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-rose-600">₹1299</span>
+                                <button class="bg-rose-500 text-white px-3 py-1 rounded hover:bg-rose-600 transition text-sm">Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login" class="page hidden">
+        <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-pink-400 to-purple-500 pt-16">
+            <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
+                <div class="text-center mb-8">
+                    <div class="text-6xl mb-4">🍰</div>
+                    <h2 class="text-3xl font-bold text-gray-800">Login</h2>
+                    <p class="text-gray-600">अपने अकाउंट में लॉगिन करें</p>
+                </div>
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Email/Phone</label>
+                        <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent" placeholder="आपका ईमेल या फोन नंबर">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Password</label>
+                        <input type="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent" placeholder="पासवर्ड">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-pink-600 focus:ring-pink-500">
+                            <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                        </label>
+                        <a href="#" class="text-sm text-pink-600 hover:text-pink-800">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="w-full bg-pink-500 text-white py-3 rounded-lg font-semibold hover:bg-pink-600 transition">Login</button>
+                </form>
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">Don't have an account? <a href="#" onclick="showPage('signup')" class="text-pink-600 hover:text-pink-800 font-medium">Sign Up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Up Page -->
+    <div id="signup" class="page hidden">
+        <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-400 to-pink-500 pt-16">
+            <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
+                <div class="text-center mb-8">
+                    <div class="text-6xl mb-4">🧁</div>
+                    <h2 class="text-3xl font-bold text-gray-800">Sign Up</h2>
+                    <p class="text-gray-600">नया अकाउंट बनाएं</p>
+                </div>
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Full Name</label>
+                        <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="आपका पूरा नाम">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Email</label>
+                        <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="आपका ईमेल">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Phone Number</label>
+                        <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="फोन नंबर">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Password</label>
+                        <input type="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="पासवर्ड">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Confirm Password</label>
+                        <input type="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="पासवर्ड दोबारा डालें">
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" class="rounded border-gray-300 text-purple-600 focus:ring-purple-500">
+                        <span class="ml-2 text-sm text-gray-600">I agree to Terms & Conditions</span>
+                    </div>
+                    <button type="submit" class="w-full bg-purple-500 text-white py-3 rounded-lg font-semibold hover:bg-purple-600 transition">Create Account</button>
+                </form>
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">Already have an account? <a href="#" onclick="showPage('login')" class="text-purple-600 hover:text-purple-800 font-medium">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page hidden">
+        <div class="pt-24 pb-16">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h1 class="text-5xl font-bold mb-4 text-gray-800 animate-bounce">🏪 About Sweet Dreams</h1>
+                    <p class="text-xl text-gray-600">हमारी कहानी और मिशन</p>
+                </div>
+                
+                <!-- Bakery Image Section -->
+                <div class="mb-16 relative">
+                    <div class="h-96 rounded-3xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=400&fit=crop" alt="Bakery Interior" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <h2 class="text-4xl font-bold mb-4">Welcome to Sweet Dreams</h2>
+                                <p class="text-xl">जहाँ हर केक एक कहानी कहता है</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+                    <div class="space-y-6">
+                        <h2 class="text-3xl font-bold text-gray-800">हमारी कहानी</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-4 p-4 bg-pink-50 rounded-lg hover:bg-pink-100 transition-colors duration-300">
+                                <div class="text-2xl">🌟</div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">2015 में शुरुआत</h4>
+                                    <p class="text-gray-600">Sweet Dreams Bakery की शुरुआत एक छोटे से सपने से हुई।</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4 p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors duration-300">
+                                <div class="text-2xl">❤️</div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">प्यार से बनाए गए केक</h4>
+                                    <p class="text-gray-600">हर केक को हम अपने परिवार के लिए बनाते हैं।</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4 p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors duration-300">
+                                <div class="text-2xl">🏆</div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">शहर की पसंदीदा बेकरी</h4>
+                                    <p class="text-gray-600">आज हम हजारों खुश ग्राहकों की पसंद हैं।</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="bg-gradient-to-r from-pink-400 to-purple-500 rounded-3xl p-8 text-center transform hover:scale-105 transition-transform duration-300 shadow-2xl">
+                            <div class="text-8xl mb-4 animate-pulse">👨‍🍳</div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Master Chef</h3>
+                            <p class="text-white text-lg">15+ साल का अनुभव</p>
+                            <div class="mt-4 flex justify-center space-x-2">
+                                <span class="text-yellow-300 text-2xl">⭐</span>
+                                <span class="text-yellow-300 text-2xl">⭐</span>
+                                <span class="text-yellow-300 text-2xl">⭐</span>
+                                <span class="text-yellow-300 text-2xl">⭐</span>
+                                <span class="text-yellow-300 text-2xl">⭐</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Section -->
+                <div class="grid md:grid-cols-3 gap-8 mb-16">
+                    <div class="text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 border-t-4 border-pink-500">
+                        <div class="text-5xl mb-4 animate-bounce">🎂</div>
+                        <h3 class="text-3xl font-bold mb-2 text-pink-600">1000+</h3>
+                        <p class="text-gray-600 font-medium">Happy Customers</p>
+                    </div>
+                    <div class="text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 border-t-4 border-yellow-500">
+                        <div class="text-5xl mb-4 animate-bounce">⭐</div>
+                        <h3 class="text-3xl font-bold mb-2 text-yellow-600">4.9/5</h3>
+                        <p class="text-gray-600 font-medium">Customer Rating</p>
+                    </div>
+                    <div class="text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 border-t-4 border-green-500">
+                        <div class="text-5xl mb-4 animate-bounce">🚚</div>
+                        <h3 class="text-3xl font-bold mb-2 text-green-600">24/7</h3>
+                        <p class="text-gray-600 font-medium">Delivery Service</p>
+                    </div>
+                </div>
+
+                <!-- Team Section -->
+                <div class="mb-16">
+                    <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">हमारी टीम</h2>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="text-center group">
+                            <div class="relative mb-4">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="Head Chef" class="w-32 h-32 rounded-full mx-auto object-cover group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                                <div class="absolute -bottom-2 -right-2 bg-pink-500 text-white p-2 rounded-full">👨‍🍳</div>
+                            </div>
+                            <h4 class="font-bold text-lg">राज शेफ</h4>
+                            <p class="text-gray-600">Head Chef</p>
+                        </div>
+                        <div class="text-center group">
+                            <div class="relative mb-4">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616c9c0e8e0?w=200&h=200&fit=crop&crop=face" alt="Pastry Chef" class="w-32 h-32 rounded-full mx-auto object-cover group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                                <div class="absolute -bottom-2 -right-2 bg-purple-500 text-white p-2 rounded-full">🧁</div>
+                            </div>
+                            <h4 class="font-bold text-lg">प्रिया शेफ</h4>
+                            <p class="text-gray-600">Pastry Chef</p>
+                        </div>
+                        <div class="text-center group">
+                            <div class="relative mb-4">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" alt="Decorator" class="w-32 h-32 rounded-full mx-auto object-cover group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                                <div class="absolute -bottom-2 -right-2 bg-blue-500 text-white p-2 rounded-full">🎨</div>
+                            </div>
+                            <h4 class="font-bold text-lg">अमित डेकोरेटर</h4>
+                            <p class="text-gray-600">Cake Decorator</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mission Section -->
+                <div class="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-3xl p-12 text-center text-white relative overflow-hidden">
+                    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                    <div class="relative z-10">
+                        <h2 class="text-4xl font-bold mb-6 animate-pulse">हमारा मिशन</h2>
+                        <p class="text-xl mb-8 leading-relaxed">हर खुशी के पल को मिठास से भर देना और आपकी यादों को और भी खास बनाना। हमारा लक्ष्य है कि हर केक एक खुशी की कहानी बने।</p>
+                        <div class="flex justify-center space-x-8 text-6xl">
+                            <span class="animate-bounce">🎂</span>
+                            <span class="animate-bounce" style="animation-delay: 0.1s">❤️</span>
+                            <span class="animate-bounce" style="animation-delay: 0.2s">🌟</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page hidden">
+        <div class="pt-24 pb-16">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h1 class="text-5xl font-bold mb-4 text-gray-800 animate-bounce">📞 Contact Us</h1>
+                    <p class="text-xl text-gray-600">हमसे जुड़ें और अपने सपनों का केक ऑर्डर करें</p>
+                </div>
+                
+                <!-- Contact Hero Image -->
+                <div class="mb-16 relative">
+                    <div class="h-64 rounded-3xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=300&fit=crop" alt="Contact Us" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-600 bg-opacity-80 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <h2 class="text-3xl font-bold mb-2">हमसे बात करें</h2>
+                                <p class="text-lg">24/7 उपलब्ध हैं आपकी सेवा में</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-8 text-gray-800">Get in Touch</h2>
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
+                                <div class="bg-gradient-to-r from-pink-500 to-red-500 text-white p-4 rounded-full group-hover:scale-110 transition-transform duration-300">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-800">Address</h3>
+                                    <p class="text-gray-600">123 Sweet Street, Cake City, India</p>
+                                    <p class="text-sm text-pink-600 cursor-pointer hover:underline" onclick="window.open('https://maps.google.com/?q=Sweet+Dreams+Bakery', '_blank')">📍 Google Maps पर देखें</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
+                                <div class="bg-gradient-to-r from-purple-500 to-blue-500 text-white p-4 rounded-full group-hover:scale-110 transition-transform duration-300">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-800">Phone</h3>
+                                    <p class="text-gray-600 text-xl font-semibold cursor-pointer hover:text-purple-600 transition-colors" onclick="window.open('tel:+919876543210', '_self')">+91 98765 43210</p>
+                                    <p class="text-sm text-purple-600 cursor-pointer hover:underline" onclick="window.open('tel:+919876543210', '_self')">📞 अभी कॉल करें</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
+                                <div class="bg-gradient-to-r from-blue-500 to-teal-500 text-white p-4 rounded-full group-hover:scale-110 transition-transform duration-300">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-800">Email</h3>
+                                    <p class="text-gray-600 cursor-pointer hover:text-blue-600 transition-colors" onclick="window.open('mailto:info@sweetdreams.com?subject=Cake Order Inquiry&body=Hello, I would like to order a cake...', '_blank')">info@sweetdreams.com</p>
+                                    <p class="text-sm text-blue-600 cursor-pointer hover:underline" onclick="window.open('mailto:info@sweetdreams.com?subject=Cake Order Inquiry&body=Hello, I would like to order a cake...', '_blank')">✉️ ईमेल भेजें</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
+                                <div class="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-4 rounded-full group-hover:scale-110 transition-transform duration-300">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-800">Hours</h3>
+                                    <p class="text-gray-600 font-semibold">Mon-Sun: 8:00 AM - 10:00 PM</p>
+                                    <p class="text-sm text-green-600">🕒 हमेशा खुला</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Social Media Section -->
+                        <div class="mt-8 p-6 bg-gradient-to-r from-pink-100 to-purple-100 rounded-2xl">
+                            <h3 class="text-xl font-bold mb-4 text-gray-800">Follow Us</h3>
+                            <div class="flex space-x-4">
+                                <a href="https://twitter.com/sweetdreamsbakery" target="_blank" class="bg-blue-600 text-white p-3 rounded-full hover:scale-110 hover:bg-blue-700 transition-all duration-300 shadow-lg">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                                </a>
+                                <a href="https://instagram.com/sweetdreamsbakery" target="_blank" class="bg-pink-600 text-white p-3 rounded-full hover:scale-110 hover:bg-pink-700 transition-all duration-300 shadow-lg">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                                </a>
+                                <a href="https://youtube.com/sweetdreamsbakery" target="_blank" class="bg-red-600 text-white p-3 rounded-full hover:scale-110 hover:bg-red-700 transition-all duration-300 shadow-lg">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                                </a>
+                                <a href="https://wa.me/919876543210?text=Hello! I want to order a cake" target="_blank" class="bg-green-600 text-white p-3 rounded-full hover:scale-110 hover:bg-green-700 transition-all duration-300 shadow-lg">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-8 rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-300 border-t-4 border-pink-500">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                            <span class="text-3xl mr-3">💌</span>
+                            Send Message
+                        </h3>
+                        <form class="space-y-6">
+                            <div class="group">
+                                <label class="block text-gray-700 font-medium mb-2 group-hover:text-pink-600 transition-colors">Name</label>
+                                <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent hover:border-pink-300 transition-all duration-300" placeholder="आपका नाम">
+                            </div>
+                            <div class="group">
+                                <label class="block text-gray-700 font-medium mb-2 group-hover:text-pink-600 transition-colors">Email</label>
+                                <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent hover:border-pink-300 transition-all duration-300" placeholder="आपका ईमेल">
+                            </div>
+                            <div class="group">
+                                <label class="block text-gray-700 font-medium mb-2 group-hover:text-pink-600 transition-colors">Phone</label>
+                                <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent hover:border-pink-300 transition-all duration-300" placeholder="आपका फोन नंबर">
+                            </div>
+                            <div class="group">
+                                <label class="block text-gray-700 font-medium mb-2 group-hover:text-pink-600 transition-colors">Message</label>
+                                <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent hover:border-pink-300 transition-all duration-300" placeholder="आपका मैसेज - कौन सा केक चाहिए?"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-4 rounded-lg font-semibold hover:from-pink-600 hover:to-purple-700 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                                <span class="flex items-center justify-center">
+                                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                                    </svg>
+                                    Send Message
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="text-3xl">🍰</div>
+                        <h3 class="text-xl font-bold">Sweet Dreams</h3>
+                    </div>
+                    <p class="text-gray-400">सबसे मिठे केक और खुशियों का घर</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" onclick="showPage('home')" class="hover:text-white">Home</a></li>
+                        <li><a href="#" onclick="showPage('gallery')" class="hover:text-white">Gallery</a></li>
+                        <li><a href="#" onclick="showPage('about')" class="hover:text-white">About</a></li>
+                        <li><a href="#" onclick="showPage('contact')" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Categories</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Birthday Cakes</a></li>
+                        <li><a href="#" class="hover:text-white">Wedding Cakes</a></li>
+                        <li><a href="#" class="hover:text-white">Custom Cakes</a></li>
+                        <li><a href="#" class="hover:text-white">Cupcakes</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-2xl hover:text-pink-400">📘</a>
+                        <a href="#" class="text-2xl hover:text-pink-400">📷</a>
+                        <a href="#" class="text-2xl hover:text-pink-400">🐦</a>
+                        <a href="#" class="text-2xl hover:text-pink-400">📱</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Sweet Dreams Bakery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 4;
+        
+        // Slider Functions
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }
+        
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+        
+        function goToSlide(slideIndex) {
+            currentSlide = slideIndex;
+            updateSlider();
+        }
+        
+        function updateSlider() {
+            const container = document.getElementById('sliderContainer');
+            const dots = document.querySelectorAll('.slider-dot');
+            
+            // Move slider
+            container.style.transform = `translateX(-${currentSlide * 25}%)`;
+            
+            // Update dots
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('active-dot');
+                } else {
+                    dot.classList.remove('active-dot');
+                }
+            });
+        }
+        
+        // Auto slide every 5 seconds
+        setInterval(nextSlide, 5000);
+        
+        // Page Navigation
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.add('hidden'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.remove('hidden');
+            
+            // Update nav links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('text-pink-600'));
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Cake Gallery Filter
+        function filterCakes(category) {
+            const cakeItems = document.querySelectorAll('.cake-item');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            // Update button styles
+            filterBtns.forEach(btn => {
+                btn.classList.remove('bg-pink-500', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            
+            event.target.classList.remove('bg-gray-200', 'text-gray-700');
+            event.target.classList.add('bg-pink-500', 'text-white');
+            
+            // Filter cakes
+            cakeItems.forEach(item => {
+                if (category === 'all') {
+                    item.style.display = 'block';
+                } else {
+                    const categories = item.getAttribute('data-category');
+                    if (categories.includes(category)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Video Play Function
+        function playVideo() {
+            alert('🎬 Video Player खुल रहा है!\n\nयहाँ आप देख सकेंगे:\n• केक बनाने की पूरी प्रक्रिया\n• हमारे expert chefs का काम\n• Fresh ingredients का इस्तेमाल\n• Beautiful decoration techniques\n\n📞 अभी कॉल करें: +91 98765 43210');
+        }
+
+        // Video Play Function
+        function playVideo() {
+            const videoContainer = document.querySelector('.aspect-video');
+            videoContainer.innerHTML = `
+                <div class="relative w-full h-full bg-black rounded-lg overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-600 to-blue-600 flex items-center justify-center">
+                        <div class="text-center text-white">
+                            <div class="text-8xl mb-4 animate-bounce">🎬</div>
+                            <h3 class="text-3xl font-bold mb-4">Cake Making Process</h3>
+                            <p class="text-xl mb-6">केक बनाने की पूरी प्रक्रिया</p>
+                            <div class="bg-white bg-opacity-20 p-4 rounded-lg backdrop-blur-sm">
+                                <p class="text-lg">🎥 Video is now playing!</p>
+                                <p class="text-sm mt-2">Watch our expert chefs create amazing cakes</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <button onclick="location.reload()" class="bg-white bg-opacity-20 text-white p-2 rounded-full hover:bg-opacity-30 transition-all">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Order Function
+        function orderCake(cakeName, price) {
+            const orderDetails = `🍰 Order Details:\n━━━━━━━━━━━━━━━━━━━━\n🎂 Cake: ${cakeName}\n💰 Price: ${price}\n━━━━━━━━━━━━━━━━━━━━\n\n📞 Call: +91 98765 43210\n💬 WhatsApp: Click OK to message\n📧 Email: info@sweetdreams.com\n\nक्या आप अभी ऑर्डर करना चाहते हैं?`;
+            
+            if (confirm(orderDetails)) {
+                window.open(`https://wa.me/919876543210?text=Hello! I want to order ${cakeName} for ${price}. Please confirm availability.`, '_blank');
+            }
+        }
+
+        // Form Submissions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Login form
+            const loginForm = document.querySelector('#login form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('लॉगिन सफल! आपका स्वागत है।');
+                });
+            }
+            
+            // Signup form
+            const signupForm = document.querySelector('#signup form');
+            if (signupForm) {
+                signupForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('अकाउंट बन गया! अब आप लॉगिन कर सकते हैं।');
+                    showPage('login');
+                });
+            }
+            
+            // Contact form
+            const contactForm = document.querySelector('#contact form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('मैसेज भेज दिया गया! हम जल्दी जवाब देंगे।');
+                    this.reset();
+                });
+            }
+            
+            // Order buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.textContent === 'Order' || e.target.textContent === 'Order Now') {
+                    e.preventDefault();
+                    alert('ऑर्डर के लिए कॉल करें: +91 98765 43210');
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976e05e1d17d441b',t:'MTc1NjQ5MTIxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
